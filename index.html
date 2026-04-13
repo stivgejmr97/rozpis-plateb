@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -433,30 +434,179 @@ body {
 
 /* ===== PRINT ===== */
 @media print {
-  @page { size: portrait; margin: 8mm; }
-  body { background: white; font-size: 10px; }
-  .app-header, .sidebar, .card-footer-bar, .del-btn, .move-btns, .summary-bar { display: none !important; }
-  .app-body { display: block; }
-  .main { padding: 0; }
-  .advisor-card { print-color-adjust: exact; -webkit-print-color-adjust: exact; border-radius: 4px; margin-bottom: 5px; padding: 8px 12px; }
-  .advisor-name-big { font-size: 16px !important; }
-  .advisor-sub, .advisor-contact { font-size: 9px !important; }
-  .client-bar { print-color-adjust: exact; -webkit-print-color-adjust: exact; border-radius: 4px; margin-bottom: 5px; padding: 5px 12px; }
-  .client-name-display { font-size: 14px !important; }
-  .client-label, .client-date { font-size: 9px !important; }
-  .product-card { page-break-inside: avoid; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
-  .card-header-bar { padding: 5px 10px; background: #f5f5f0; }
-  .product-nick-input { color: var(--malinova) !important; font-size: 13px !important; }
-  .card-body-grid { grid-template-columns: 1fr 120px; }
-  .card-fields { padding: 5px 10px; }
-  .fields-row { grid-template-columns: repeat(2, 1fr) !important; gap: 3px !important; margin-bottom: 3px !important; }
-  .fields-row[style] { grid-template-columns: repeat(2, 1fr) !important; }
-  .field-group label { font-size: 7.5px !important; margin-bottom: 1px; }
-  .field-group input, .field-group select { background: transparent !important; border: none !important; border-bottom: 0.5px solid #ccc !important; border-radius: 0 !important; padding: 1px 3px !important; font-size: 10px !important; }
-  .card-qr { print-color-adjust: exact; -webkit-print-color-adjust: exact; width: 120px; padding: 10px 8px; }
-  .card-qr canvas, .card-qr img { width: 100px !important; height: 100px !important; }
-  .qr-label { font-size: 7px; }
-  .qr-amount { font-size: 10px; }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  body { background: white !important; font-family: 'Barlow', sans-serif; font-size: 9.5px; color: #1a1a1a; }
+
+  .app-header, .sidebar, .card-footer-bar, .del-btn, .move-btns,
+  .summary-bar, .sidebar-toggle, .sidebar-inner { display: none !important; }
+
+  .app-body { display: block !important; }
+
+  .main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ── PRINT WRAPPER ── */
+  .print-page {
+    padding: 10mm 12mm 8mm;
+    min-height: 277mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── ADVISOR HEADER ── */
+  .advisor-card {
+    background: #B1004D !important;
+    border-radius: 6px !important;
+    padding: 10px 16px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    margin-bottom: 8px !important;
+    border: none !important;
+  }
+  .advisor-sub { font-size: 7.5px !important; color: rgba(255,255,255,0.6) !important; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
+  .advisor-name-big { font-size: 18px !important; color: white !important; font-weight: 700 !important; letter-spacing: -.2px; }
+  .advisor-contact { font-size: 9px !important; color: rgba(255,255,255,0.75) !important; margin-top: 3px; }
+  .advisor-logo-area { display: block !important; text-align: right; }
+  .advisor-logo-area img { height: 34px !important; opacity: .95; }
+
+  /* ── CLIENT BAR ── */
+  .client-bar {
+    background: #4A4847 !important;
+    border-radius: 5px !important;
+    padding: 7px 16px !important;
+    flex-direction: row !important;
+    margin-bottom: 10px !important;
+    border: none !important;
+  }
+  .client-label { font-size: 7px !important; color: #CECDC2 !important; text-transform: uppercase; letter-spacing: .1em; }
+  .client-name-display { font-size: 16px !important; color: white !important; font-weight: 700 !important; }
+  .client-date { font-size: 9px !important; color: rgba(255,255,255,0.55) !important; }
+
+  /* ── PRODUCT CARDS ── */
+  .product-card {
+    page-break-inside: avoid;
+    margin-bottom: 6px !important;
+    border: 1px solid #e8e6e0 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  /* Coloured left accent by type — set via JS class */
+  .product-card.type-pojisteni { border-left: 3px solid #B1004D !important; }
+  .product-card.type-investice  { border-left: 3px solid #1F3062 !important; }
+  .product-card.type-dps        { border-left: 3px solid #00382A !important; }
+  .product-card                 { border-left: 3px solid #CECDC2 !important; }
+
+  /* Card header */
+  .card-header-bar {
+    background: #F7F6F2 !important;
+    border-bottom: 1px solid #e8e6e0 !important;
+    padding: 5px 10px 5px 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  .product-nick-input {
+    color: #1a1a1a !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    font-family: 'Barlow Condensed', sans-serif !important;
+    letter-spacing: .01em !important;
+  }
+
+  /* Body grid */
+  .card-body-grid { grid-template-columns: 1fr 108px !important; }
+  .card-fields { padding: 7px 10px 6px !important; }
+
+  /* Field rows — 3 columns */
+  .fields-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 5px 10px !important;
+    margin-bottom: 5px !important;
+    align-items: end !important;
+  }
+  .fields-row[style*="2fr"] { grid-template-columns: 2fr 1.2fr 55px 55px !important; }
+
+  .field-group { display: flex; flex-direction: column; gap: 1px; }
+  .field-group label {
+    font-size: 6.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .09em !important;
+    color: #999 !important;
+    margin-bottom: 1px !important;
+    line-height: 1 !important;
+  }
+  .field-group input, .field-group select {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 0.75px solid #ddd !important;
+    border-radius: 0 !important;
+    padding: 2px 0 !important;
+    font-size: 9.5px !important;
+    font-family: 'Barlow', sans-serif !important;
+    color: #1a1a1a !important;
+    line-height: 1.3 !important;
+    width: 100% !important;
+  }
+
+  /* QR panel */
+  .card-qr {
+    width: 108px !important;
+    border-left: 1px solid #e8e6e0 !important;
+    border-top: none !important;
+    background: #FAFAF8 !important;
+    padding: 8px 6px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+  }
+  .card-qr canvas, .card-qr img {
+    width: 88px !important;
+    height: 88px !important;
+    border-radius: 3px !important;
+  }
+  .qr-label {
+    font-size: 6.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    color: #aaa !important;
+  }
+  .qr-amount {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    color: #B1004D !important;
+    font-family: 'Barlow Condensed', sans-serif !important;
+  }
+
+  /* ── PRINT FOOTER ── */
+  .print-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: auto !important;
+    padding-top: 8px !important;
+    border-top: 0.5px solid #ddd !important;
+    font-size: 7.5px !important;
+    color: #bbb !important;
+  }
+  .print-footer strong { color: #B1004D !important; }
+
   input { border: none !important; background: transparent !important; }
 }
 
@@ -578,7 +728,7 @@ input[type="file"] { display: none; }
   <div class="header-btns">
     <button class="btn-hdr" onclick="document.getElementById('file-input').click()">↑ Načíst</button>
     <button class="btn-hdr" onclick="exportAsJSON()">↓ Uložit</button>
-    <button class="btn-hdr bezova" onclick="window.print()">Tisk / PDF</button>
+    <button class="btn-hdr bezova" onclick="preparePrint(); window.print()">Tisk / PDF</button>
   </div>
 </header>
 <input type="file" id="file-input" accept=".json" onchange="onFileLoad(event)">
@@ -658,6 +808,7 @@ input[type="file"] { display: none; }
 
   <!-- MAIN -->
   <main class="main">
+    <div class="print-page">
 
     <!-- Advisor card -->
     <div class="advisor-card" id="advisor-card">
@@ -692,6 +843,14 @@ input[type="file"] { display: none; }
       <div class="summary-count" id="summary-count"></div>
     </div>
 
+    <!-- Print footer -->
+    <div class="print-footer" id="print-footer" style="display:none;">
+      <div>Vygenerováno aplikací <strong>4fin Rozpis plateb</strong></div>
+      <div id="print-footer-contact"></div>
+      <div id="print-footer-date"></div>
+    </div>
+
+    </div><!-- end print-page -->
   </main>
 </div>
 
@@ -712,6 +871,11 @@ $(window).on('load', function() {
   document.getElementById('searchQuery').focus();
   checkMobile();
   window.addEventListener('resize', checkMobile);
+  window.addEventListener('beforeprint', preparePrint);
+  window.addEventListener('afterprint', () => {
+    const f = document.getElementById('print-footer');
+    if (f) f.style.display = 'none';
+  });
 
   // Live update listeners
   $('#clientName').on('input', updateClientBar);
@@ -1346,6 +1510,30 @@ function toggleSidebar(btn) {
   const icon = btn.querySelector('.sidebar-toggle-icon');
   inner.classList.toggle('open');
   icon.classList.toggle('open');
+}
+
+function preparePrint() {
+  // Přidej typ třídy ke kartám produktů
+  document.querySelectorAll('.product-card').forEach((card, i) => {
+    const p = productsArray[i];
+    if (!p) return;
+    card.classList.remove('type-pojisteni','type-investice','type-dps');
+    const t = removeDiacritics((p.type || '').toLowerCase());
+    if (t === 'pojisteni' || t === 'pojistění') card.classList.add('type-pojisteni');
+    else if (t === 'investice') card.classList.add('type-investice');
+    else if (t === 'dps') card.classList.add('type-dps');
+  });
+
+  // Zobraz a vyplň print footer
+  const footer = document.getElementById('print-footer');
+  if (!footer) return;
+  footer.style.display = 'flex';
+  const name = $('#advisorName').val().trim();
+  const phone = $('#advisorPhone').val().trim();
+  const email = $('#advisorEmail').val().trim();
+  document.getElementById('print-footer-contact').textContent = [phone, email].filter(Boolean).join('  ·  ') || name;
+  const d = new Date();
+  document.getElementById('print-footer-date').textContent = 'Vytištěno ' + d.getDate() + '.' + (d.getMonth()+1) + '.' + d.getFullYear();
 }
 
 function checkMobile() {
